@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mời đi chơi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        body {
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            margin: 0;
+            background: url('https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            top: 40vh;
+        }
+        #question {
+            color: #ff4081;
+            font-size: 28px;
+            text-shadow: 2px 2px 5px rgba(255, 0, 150, 0.5);
+        }
+        #yes {
+            font-size: 20px;
+            padding: 12px 24px;
+            background-color: #ff85a2;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 200px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(255, 0, 150, 0.3);
+            animation: glow 1.5s infinite alternate;
+        }
+        #yes:hover {
+            background-color: #ff4d79;
+        }
+        #no {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #ffcccb;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            min-width: 100px;
+            cursor: pointer;
+            position: absolute;
+            top: 160px;
+            box-shadow: 0 4px 8px rgba(255, 0, 150, 0.3);
+            transition: all 0.3s ease;
+        }
+        @keyframes glow {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.1);
+            }
+        }
+        @keyframes floatingHearts {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 30px;
+            animation: floatingHearts 3s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="question">Cậu đồng ý đi chơi với tớ nhé? 💖</h2>
+        <button id="yes">Tớ đồng ýyyy 💕</button>
+        <button id="no">KHUM 😜</button>
+    </div>
+    
+    <script>
+        let noButton = document.getElementById('no');
+        let yesButton = document.getElementById('yes');
+        let question = document.getElementById('question');
+        let hoverCount = 0;
+
+        noButton.addEventListener('mouseover', moveNoButton);
+        yesButton.addEventListener('click', handleYesClick);
+
+        function moveNoButton() {
+            hoverCount++;
+            let messages = [
+                "Ơ kìa, sao lại khônggg?", 
+                "Đừng trốn tớ màaa...", 
+                "Nghĩ lại đi nè!", 
+                "Cậu vẫn không đồng ý sao", 
+                "Thật sự không sao? 😢",
+                "Đồ đáng ghéccc ",
+                "Còn lâu mới cho ấn heheee",
+                "Cậu mà định ấn nx là mất tiu lun đó",
+            ];
+            
+            if (hoverCount < messages.length) {
+                noButton.innerText = messages[hoverCount];
+            } else {
+                noButton.style.display = "none";
+                return;
+            }
+
+            noButton.style.animation = "shake 0.1s ease-in-out";
+
+            setTimeout(() => {
+                let maxX = window.innerWidth - noButton.clientWidth;
+                let maxY = 300;
+                let x = Math.random() * maxX;
+                let y = (2*Math.random()-1) * maxY;
+
+                noButton.style.left = `${x}px`;
+                noButton.style.top = `${y}px`;
+
+                noButton.style.animation = "";
+            }, 100);
+        }
+
+        function handleYesClick() {
+            question.innerText = "Yeah, tớ yêu cậu hí hí ❤️";
+            document.body.style.background = "url('https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif') no-repeat center center fixed";
+            document.body.style.backgroundSize = "cover";
+            createHearts();
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerText = '❤️';
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }
+        }
+    </script>
+</body>
+</html>
